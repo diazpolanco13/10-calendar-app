@@ -18,6 +18,7 @@ export const Navbar = () => {
               <div className="flex items-center mr-2 -ml-2 md:hidden">
                 {/* Mobile menu button */}
                 <button
+                  onClick={()=> setShowMenu(!showMenu) }
                   className="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
                   aria-label="Main menu"
                   aria-expanded="false"
@@ -210,11 +211,10 @@ export const Navbar = () => {
         </div>
 
         {/*
-    Mobile menu, toggle classes based on menu state.
-
-    Menu open: "block", Menu closed: "hidden"
-  */}
-        <div className="hidden md:hidden">
+        Menú móvil, alternar clases según el estado del menú.
+        Menu open: "block", Menu closed: "hidden"
+        */}
+        <div className={`${showMenu ? "block md:hidden" : "hidden md:hidden" }`}>
           <div className="pt-2 pb-3">
             <a
               href="/"

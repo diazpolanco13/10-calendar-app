@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Transition, Menu } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import { Dropdown } from "./Dropdown";
+import { MovilMenu } from "./MovilMenu";
 
 export const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -16,9 +16,10 @@ export const Navbar = () => {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex items-center mr-2 -ml-2 md:hidden">
+                
                 {/* Mobile menu button */}
                 <button
-                  onClick={()=> setShowMenu(!showMenu) }
+                  onClick={() => setShowMenu(!showMenu)}
                   className="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
                   aria-label="Main menu"
                   aria-expanded="false"
@@ -30,7 +31,7 @@ export const Navbar = () => {
               Menu open: "hidden", Menu closed: "block"
             */}
                   <svg
-                    className="block w-6 h-6"
+                    className={"block w-6 h-6"}
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -77,7 +78,7 @@ export const Navbar = () => {
                   alt="Workflow logo"
                 />
               </div>
-              <div className="hidden md:ml-6 md:flex">
+              {/* <div className="hidden md:ml-6 md:flex">
                 <a
                   href="/"
                   className="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out border-b-2 border-indigo-500 focus:outline-none focus:border-indigo-700"
@@ -102,8 +103,8 @@ export const Navbar = () => {
                 >
                   Calendar
                 </a>
-              </div>
-            </div>
+              </div>*/}
+            </div> 
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <button
@@ -123,7 +124,7 @@ export const Navbar = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span>New Job</span>
+                  <span>Nuevo</span>
                 </button>
               </div>
               <div className="hidden md:ml-4 md:flex-shrink-0 md:flex md:items-center">
@@ -149,138 +150,14 @@ export const Navbar = () => {
                 </button>
 
                 {/* Profile dropdown */}
-                <div className="relative ml-3">
-                  <div>
-                    <button
-                      className="flex text-sm transition duration-150 ease-in-out border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300"
-                      id="user-menu"
-                      aria-label="User menu"
-                      aria-haspopup="true"
-                    >
-                      <img
-                        className="w-8 h-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </button>
-                  </div>
-                  {/*
-              Profile dropdown panel, show/hide based on dropdown state.
-
-              Entering: "transition ease-out duration-200"
-                From: "transform opacity-0 scale-95"
-                To: "transform opacity-100 scale-100"
-              Leaving: "transition ease-in duration-75"
-                From: "transform opacity-100 scale-100"
-                To: "transform opacity-0 scale-95"
-            */}
-                  <div className="absolute right-0 w-48 mt-2 origin-top-right rounded-md shadow-lg">
-                    <div
-                      className="py-1 bg-white rounded-md shadow-xs"
-                      role="menu"
-                      aria-orientation="vertical"
-                      aria-labelledby="user-menu"
-                    >
-                      <a
-                        href="/"
-                        className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                        role="menuitem"
-                      >
-                        Your Profile
-                      </a>
-                      <a
-                        href="/"
-                        className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                        role="menuitem"
-                      >
-                        Settings
-                      </a>
-                      <a
-                        href="/"
-                        className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                        role="menuitem"
-                      >
-                        Sign out
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                <Dropdown />
               </div>
             </div>
           </div>
         </div>
 
-        {/*
-        Menú móvil, alternar clases según el estado del menú.
-        Menu open: "block", Menu closed: "hidden"
-        */}
-        <div className={`${showMenu ? "block md:hidden" : "hidden md:hidden" }`}>
-          <div className="pt-2 pb-3">
-            <a
-              href="/"
-              className="block py-2 pl-3 pr-4 text-base font-medium text-indigo-700 transition duration-150 ease-in-out border-l-4 border-indigo-500 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 sm:pl-5 sm:pr-6"
-            >
-              Dashboard
-            </a>
-            <a
-              href="/"
-              className="block py-2 pl-3 pr-4 mt-1 text-base font-medium text-gray-600 transition duration-150 ease-in-out border-l-4 border-transparent hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 sm:pl-5 sm:pr-6"
-            >
-              Team
-            </a>
-            <a
-              href="/"
-              className="block py-2 pl-3 pr-4 mt-1 text-base font-medium text-gray-600 transition duration-150 ease-in-out border-l-4 border-transparent hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 sm:pl-5 sm:pr-6"
-            >
-              Projects
-            </a>
-            <a
-              href="/"
-              className="block py-2 pl-3 pr-4 mt-1 text-base font-medium text-gray-600 transition duration-150 ease-in-out border-l-4 border-transparent hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 sm:pl-5 sm:pr-6"
-            >
-              Calendar
-            </a>
-          </div>
-          <div className="pt-4 pb-3 border-t border-gray-200">
-            <div className="flex items-center px-4 sm:px-6">
-              <div className="flex-shrink-0">
-                <img
-                  className="w-10 h-10 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
-                />
-              </div>
-              <div className="ml-3">
-                <div className="text-base font-medium leading-6 text-gray-800">
-                  Tom Cook
-                </div>
-                <div className="text-sm font-medium leading-5 text-gray-500">
-                  tom@example.com
-                </div>
-              </div>
-            </div>
-            <div className="mt-3">
-              <a
-                href="/"
-                className="block px-4 py-2 text-base font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 sm:px-6"
-              >
-                Your Profile
-              </a>
-              <a
-                href="/"
-                className="block px-4 py-2 mt-1 text-base font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 sm:px-6"
-              >
-                Settings
-              </a>
-              <a
-                href="/"
-                className="block px-4 py-2 mt-1 text-base font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 sm:px-6"
-              >
-                Sign out
-              </a>
-            </div>
-          </div>
-        </div>
+        {/* Menú móvil lateral, alternado por clases según el estado del menú.*/}
+        <MovilMenu showMenu={showMenu}/>
       </nav>
     </>
   );

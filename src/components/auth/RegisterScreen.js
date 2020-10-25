@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const LoginScreen = () => {
+export const RegisterScreen = () => {
   return (
     <div>
       <div className="flex min-h-screen bg-white">
-        <div className="flex flex-col justify-center flex-1 px-4 py-12 lg:w-3/6 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      <div className="flex flex-col justify-center flex-1 px-4 py-12 lg:w-3/6 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="w-full max-w-sm mx-auto lg:w-96">
             <div>
               <img
@@ -14,7 +14,7 @@ export const LoginScreen = () => {
                 alt="Workflow"
               />
               <h2 className="mt-6 text-3xl font-extrabold leading-9 text-gray-900">
-                Inicia sesión 
+                Registrate con tus datos
               </h2>
             </div>
 
@@ -23,15 +23,48 @@ export const LoginScreen = () => {
                 <form action="#" method="POST" className="space-y-6">
                   <div>
                     <label
+                      htmlFor="text"
+                      className="block text-sm font-medium leading-5 text-gray-700"
+                    >
+                      Nombres
+                    </label>
+                    <div className="mt-1 rounded-md shadow-sm">
+                      <input
+                        id="name"
+                        type="text"
+                        required
+                        className="block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
                       htmlFor="email"
                       className="block text-sm font-medium leading-5 text-gray-700"
                     >
-                      Dirección de correo
+                      Email address
                     </label>
                     <div className="mt-1 rounded-md shadow-sm">
                       <input
                         id="email"
                         type="email"
+                        required
+                        className="block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-medium leading-5 text-gray-700"
+                    >
+                      Contraseña
+                    </label>
+                    <div className="mt-1 rounded-md shadow-sm">
+                      <input
+                        id="password"
+                        type="password"
+                        name="password"
                         required
                         className="block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                       />
@@ -43,11 +76,12 @@ export const LoginScreen = () => {
                       htmlFor="password"
                       className="block text-sm font-medium leading-5 text-gray-700"
                     >
-                      Contraseña
+                      Repetir contraseña
                     </label>
                     <div className="mt-1 rounded-md shadow-sm">
                       <input
-                        id="password"
+                        id="password2"
+                        name="password2"
                         type="password"
                         required
                         className="block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
@@ -66,16 +100,16 @@ export const LoginScreen = () => {
                         htmlFor="remember_me"
                         className="block ml-2 text-sm leading-5 text-gray-900"
                       >
-                        Remember me
+                        Recuerdame
                       </label>
                     </div>
 
                     <div className="text-sm leading-5">
                       <Link
-                        to="/register"
+                        to="/login"
                         className="font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline"
                       >
-                        ¿No tienes cuenta? 
+                        ¿Ya tienes cuenta?
                       </Link>
                     </div>
                   </div>
@@ -86,7 +120,7 @@ export const LoginScreen = () => {
                         type="submit"
                         className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700"
                       >
-                        Sign in
+                        Regístrate
                       </button>
                     </span>
                   </div>

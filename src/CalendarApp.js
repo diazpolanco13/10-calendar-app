@@ -1,9 +1,10 @@
 import React from 'react'
+import { AppRouter } from './components/routers/AppRouter'
 
 export const CalendarApp = () => {
     return (
         <div>
-            <h1>Esto esta como lento</h1>
+            <AppRouter/>
         </div>
     )
 }

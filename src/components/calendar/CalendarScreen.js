@@ -1,9 +1,15 @@
 import React from 'react'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 import { Navbar } from '../ui/Navbar'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
+import { messages } from '../../helpers/calendar-messages'
+
+import moment from 'moment'
+import 'moment/locale/es'
+moment.locale('es')
+
+
 
 const localizer = momentLocalizer(moment);
 
@@ -11,10 +17,26 @@ const myEventsList = [{
     title: 'Cumple de Ani',
     start: moment().toDate(),
     end: moment().add(2, 'hours').toDate(),
-    bgcolor: '#fafafa'
+    bgcolor: '#5850ec',
 }]
 
 export const CalendarScreen = () => {
+
+    const eventStyleGetter = (event, start, end, isSelected) => {
+        const style = {
+            backgroundColor: '#5850ec',
+            borderRadius: '2px',
+            opacity: 0.8,
+            display: 'block',
+            color: 'white'
+        }
+
+        return {
+            style
+        }
+    }
+
+
     return (
         <div>
             <Navbar />
@@ -27,6 +49,8 @@ export const CalendarScreen = () => {
                     startAccessor="start"
                     endAccessor="end"
                     style={{ height: 600 }}
+                    messages={messages}
+                    eventPropGetter={eventStyleGetter}
                     />
                 </div>
             </div>

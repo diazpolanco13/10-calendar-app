@@ -25,5 +25,12 @@
     main {
         width: 100%
     }
+    
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+    .rbc-month-view {
+        border-radius: 5px
+    }
+    
+}

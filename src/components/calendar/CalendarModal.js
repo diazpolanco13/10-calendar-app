@@ -1,7 +1,11 @@
 import { Transition } from "@headlessui/react";
-import moment from 'moment'
 import React, { useState } from "react";
+
 import DateTimePicker from 'react-datetime-picker';
+import moment from 'moment'
+import Swal from 'sweetalert2'
+
+
 
 const now = moment().minutes(0).seconds(0).add(1, 'hours')
 const lastNow = now.clone().add(1, 'hours')
@@ -11,6 +15,7 @@ export const CalendarModal = () => {
   const [isOpen, seTisOpen] = useState(true);
   const [dateStart, setDateStart] = useState(now.toDate())
   const [dateEnd, setDateEnd] = useState(lastNow.toDate())
+  const [titleValid, setTitleValid] = useState(true)
 
   const [formValues, setFormValues] = useState({
     title: 'Evento',
@@ -19,19 +24,65 @@ export const CalendarModal = () => {
     end:lastNow.toDate(), 
   })
 
+  const { title, notes, start, end } = formValues
+
+  const handleInputChange = ({ target }) => {
+
+    setFormValues({
+      ...formValues,
+      [target.name]: target.value
+    });
+  };
+  
+
   const closeModal = () => {
     seTisOpen(false);
   };
 
   const handleStartChangeDate = (e) => {
     setDateStart(e)
-    console.log('start', e)
+    setFormValues({
+      ...formValues,
+      start: e
+    })
   }
   const handleEndChangeDate = (e) => {
     setDateEnd(e)
-    console.log('start', e)
+    setFormValues({
+      ...formValues,
+      end: e
+    })
   }
 
+
+  const handleSumbitForm = (e) => {
+    e.preventDefault()
+    const startMoment = moment(start)
+    const endMoment = moment(end)
+
+    if (startMoment.isSameOrAfter(endMoment)) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'La fecha final debe ser posterior a la fecha inicial',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+      return;
+    }
+    if (title.trim().length < 2) {
+       setTitleValid(false); 
+      Swal.fire({
+        title: 'Error!',
+        text: 'El titulo esta lleno de forma incorrecta ',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+      return;
+    }
+          setTitleValid(true); 
+  }
+
+  
 
   return (
     <>
@@ -45,10 +96,11 @@ export const CalendarModal = () => {
         leaveTo="opacity-0"
       >
         {/* Modal */}
-
-        <div
+        
+        <form
           style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
           className="fixed top-0 bottom-0 left-0 right-0 z-40 w-full h-full"
+          onSubmit={ handleSumbitForm }
         >
           <div className="absolute left-0 right-0 max-w-xl p-4 mx-auto mt-24 overflow-hidden">
             <div
@@ -93,9 +145,12 @@ export const CalendarModal = () => {
                   Titulo del evento
                 </label>
                 <input
-                  className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded-lg appearance-none focus:outline-none focus:bg-white focus:border-blue-500"
+                  className={`w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded-lg appearance-none focus:outline-none focus:bg-white  ${titleValid ? 'focus:border-blue-500' : 'focus:border-red-500 '} `}
                   type="text"
-                  x-model="event_title"
+                  name="title"
+                  autoComplete="off"
+                  value={title}
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="mb-4">
@@ -104,8 +159,10 @@ export const CalendarModal = () => {
                 </label>
                 <textarea
                   className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded-lg appearance-none focus:outline-none focus:bg-white focus:border-blue-500"
-                  type=""
-                  x-model="event_date"
+                  type="text"
+                  name="notes"
+                  value={notes}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -114,18 +171,18 @@ export const CalendarModal = () => {
                   type="button"
                   className="px-4 py-2 mr-2 font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100"
                 >
-                  Cancel
+                  Cancelar
                 </button>
                 <button
-                  type="button"
+                  type="submit"
                   className="px-4 py-2 font-semibold text-white bg-gray-800 border border-gray-700 rounded-lg shadow-sm hover:bg-gray-700"
                 >
-                  Save Event
+                  Guardar
                 </button>
               </div>
             </div>
           </div>
-        </div>
+        </form>
 
         {/* /Modal */}
       </Transition>

@@ -150,7 +150,7 @@ export const Navbar = () => {
                 </button>
 
                 {/* Profile dropdown */}
-                <Dropdown />
+                <Dropdown showMenu={showMenu} />
               </div>
             </div>
           </div>

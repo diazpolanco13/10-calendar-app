@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment'
 import Swal from 'sweetalert2'
-
+import { useDispatch, useSelector } from "react-redux";
+import { uiCloseModal } from "../../actions/uiActions";
 
 
 const now = moment().minutes(0).seconds(0).add(1, 'hours')
@@ -12,7 +13,9 @@ const lastNow = now.clone().add(1, 'hours')
 
 
 export const CalendarModal = () => {
-  const [isOpen, seTisOpen] = useState(true);
+  const { modalOpen } = useSelector(state => state.ui)
+  const dispatch = useDispatch()
+
   const [dateStart, setDateStart] = useState(now.toDate())
   const [dateEnd, setDateEnd] = useState(lastNow.toDate())
   const [titleValid, setTitleValid] = useState(true)
@@ -36,7 +39,7 @@ export const CalendarModal = () => {
   
 
   const closeModal = () => {
-    seTisOpen(false);
+    dispatch(uiCloseModal())
   };
 
   const handleStartChangeDate = (e) => {
@@ -87,11 +90,11 @@ export const CalendarModal = () => {
   return (
     <>
       <Transition
-        show={isOpen}
-        enter="transition-opacity ease-linear duration-300"
+        show={modalOpen}
+        enter="transition-opacity duration-300"
         enterFrom="opacity-0"
         enterTo="opacity-100"
-        leave="transition-opacity ease-linear duration-300"
+        leave="transition-opacity duration-300"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
@@ -169,6 +172,7 @@ export const CalendarModal = () => {
               <div className="mt-8 text-right">
                 <button
                   type="button"
+                  onClick={()=> dispatch(uiCloseModal())}
                   className="px-4 py-2 mr-2 font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100"
                 >
                   Cancelar

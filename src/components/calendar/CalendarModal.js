@@ -23,7 +23,7 @@ export const CalendarModal = () => {
   const [formValues, setFormValues] = useState({
     title: 'Evento',
     notes: '',
-    start: now.toDate() ,
+    start: now.toDate(),
     end:lastNow.toDate(), 
   })
 

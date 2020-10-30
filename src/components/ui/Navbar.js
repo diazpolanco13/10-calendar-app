@@ -1,16 +1,20 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { uiOpenModal } from "../../actions/uiActions";
 import { Dropdown } from "./Dropdown";
 import { MovilMenu } from "./MovilMenu";
 
 export const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleClickNew = () => {
+    dispatch(uiOpenModal());
+  };
+
 
   return (
     <>
-      {/*
-  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
-  Read the documentation to get started: https://tailwindui.com/documentation
-*/}
       <nav className="bg-white shadow">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
@@ -109,6 +113,7 @@ export const Navbar = () => {
               <div className="flex-shrink-0">
                 <button
                   type="button"
+                  onClick={handleClickNew}
                   className="relative inline-flex items-center px-4 py-2 text-sm font-medium leading-5 text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700"
                 >
                   {/* Heroicon name: plus */}

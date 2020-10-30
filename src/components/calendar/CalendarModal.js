@@ -6,6 +6,7 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../actions/uiActions";
+import { eventAddNew } from "../../actions/eventsAction";
 
 
 const now = moment().minutes(0).seconds(0).add(1, 'hours')
@@ -75,14 +76,25 @@ export const CalendarModal = () => {
     if (title.trim().length < 2) {
        setTitleValid(false); 
       Swal.fire({
-        title: 'Error!',
+          title: 'Error!',
         text: 'El titulo esta lleno de forma incorrecta ',
         icon: 'error',
         confirmButtonText: 'Ok'
       })
       return;
     }
-          setTitleValid(true); 
+    setTitleValid(true); 
+    
+
+    dispatch(eventAddNew({
+      ...formValues,
+      id: new Date().getTime(),
+      user: {
+        _id: '2317',
+        name: 'Camilo Sexto'
+      }
+    }));
+
   }
 
   

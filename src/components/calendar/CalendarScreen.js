@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
+import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
+import 'moment/locale/es'
+
 
 import { Navbar } from '../ui/Navbar'
 import { messages } from '../../helpers/calendar-messages'
 import { CalendarEvent } from './CalendarEvent'
-
-import moment from 'moment'
-import 'moment/locale/es'
 import { CalendarModal } from './CalendarModal'
+
+
 import { useDispatch } from 'react-redux'
 import { uiOpenModal } from '../../actions/uiActions'
 import { eventSetActive } from '../../actions/eventsAction'
 
 moment.locale('es')
-
-
 
 const localizer = momentLocalizer(moment);
 
@@ -41,6 +41,7 @@ export const CalendarScreen = () => {
 
     const onSelectEvent = (e) => {
         dispatch(eventSetActive(e));
+        dispatch(uiOpenModal());
     };
 
     const onViewChange = (e) => {

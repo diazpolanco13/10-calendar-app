@@ -11,7 +11,7 @@ import { CalendarEvent } from './CalendarEvent'
 import { CalendarModal } from './CalendarModal'
 
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { uiOpenModal } from '../../actions/uiActions'
 import { eventSetActive } from '../../actions/eventsAction'
 
@@ -19,29 +19,20 @@ moment.locale('es')
 
 const localizer = momentLocalizer(moment);
 
-const events = [{
-    title: 'Cumple de Ani',
-    start: moment().toDate(),
-    end: moment().add(1, 'hours').toDate(),
-    notes: 'Ani es mi amor, solo con ella vivo la felicidad',
-    user: {
-        _id: '1313',
-        name: 'Carlos'
-    }
-}]
 
 export const CalendarScreen = () => {
     const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
     const dispatch = useDispatch()
-    
-    
+    const { events } = useSelector(state => state.calendar || [])
+
+
     const onDobleClick = () => {
         dispatch(uiOpenModal());
     };
 
     const onSelectEvent = (e) => {
         dispatch(eventSetActive(e));
-        dispatch(uiOpenModal());
+
     };
 
     const onViewChange = (e) => {

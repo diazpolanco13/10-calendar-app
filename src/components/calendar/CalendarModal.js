@@ -1,34 +1,45 @@
 import { Transition } from "@headlessui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../actions/uiActions";
-import { eventAddNew } from "../../actions/eventsAction";
+import { eventAddNew, eventClearActiveEvent } from "../../actions/eventsAction";
 
 
 const now = moment().minutes(0).seconds(0).add(1, 'hours')
 const lastNow = now.clone().add(1, 'hours')
 
+const initialEvent = {
+  title: '',
+  notes: '',
+  start: now.toDate(),
+  end:lastNow.toDate(), 
+}
+
 
 export const CalendarModal = () => {
   const { modalOpen } = useSelector(state => state.ui)
+  const { activeEvent } = useSelector(state => state.calendar)
   const dispatch = useDispatch()
 
   const [dateStart, setDateStart] = useState(now.toDate())
   const [dateEnd, setDateEnd] = useState(lastNow.toDate())
   const [titleValid, setTitleValid] = useState(true)
 
-  const [formValues, setFormValues] = useState({
-    title: 'Evento',
-    notes: '',
-    start: now.toDate(),
-    end:lastNow.toDate(), 
-  })
+  const [formValues, setFormValues] = useState( initialEvent )
 
   const { title, notes, start, end } = formValues
+ 
+  useEffect(() => {
+    if (activeEvent) {
+      setFormValues(activeEvent)
+    }
+
+  }, [activeEvent])
+
 
   const handleInputChange = ({ target }) => {
 
@@ -41,6 +52,8 @@ export const CalendarModal = () => {
 
   const closeModal = () => {
     dispatch(uiCloseModal())
+    setFormValues(initialEvent)
+    dispatch(eventClearActiveEvent())
   };
 
   const handleStartChangeDate = (e) => {
@@ -78,10 +91,10 @@ export const CalendarModal = () => {
       Swal.fire({
           title: 'Error!',
         text: 'El titulo esta lleno de forma incorrecta ',
-        icon: 'error',
-        confirmButtonText: 'Ok'
-      })
-      return;
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
+        return;
     }
     setTitleValid(true); 
     
@@ -94,7 +107,7 @@ export const CalendarModal = () => {
         name: 'Camilo Sexto'
       }
     }));
-
+    dispatch(uiCloseModal())
   }
 
   
@@ -164,6 +177,7 @@ export const CalendarModal = () => {
                   type="text"
                   name="title"
                   autoComplete="off"
+                  placeholder="Ingrese un título"
                   value={title}
                   onChange={handleInputChange}
                 />
@@ -175,6 +189,7 @@ export const CalendarModal = () => {
                 <textarea
                   className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded-lg appearance-none focus:outline-none focus:bg-white focus:border-blue-500"
                   type="text"
+                  placeholder="Ingrese la descripción de la tarea"
                   name="notes"
                   value={notes}
                   onChange={handleInputChange}

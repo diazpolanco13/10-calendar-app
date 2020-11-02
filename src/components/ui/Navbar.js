@@ -73,12 +73,12 @@ export const Navbar = () => {
               <div className="flex items-center flex-shrink-0">
                 <img
                   className="block w-auto h-8 lg:hidden"
-                  src="https://tailwindui.com/img/logos/workflow-mark-on-white.svg"
+                  src="https://tailwindui.com/img/logos/v1/workflow-mark-on-white.svg"
                   alt="Workflow logo"
                 />
                 <img
                   className="hidden w-auto h-8 lg:block"
-                  src="https://tailwindui.com/img/logos/workflow-logo-on-white.svg"
+                  src="https://tailwindui.com/img/logos/v1/workflow-mark-on-white.svg"
                   alt="Workflow logo"
                 />
               </div>

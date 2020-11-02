@@ -10,7 +10,7 @@ export const RegisterScreen = () => {
             <div>
               <img
                 className="w-auto h-12"
-                src="https://tailwindui.com/img/logos/workflow-mark-on-white.svg"
+                src="https://tailwindui.com/img/logos/v1/workflow-mark-on-white.svg"
                 alt="Workflow"
               />
               <h2 className="mt-6 text-3xl font-extrabold leading-9 text-gray-900">

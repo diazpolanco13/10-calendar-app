@@ -15,10 +15,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { uiOpenModal } from '../../actions/uiActions'
 import { eventClearActiveEvent, eventSetActive } from '../../actions/eventsAction'
 
-moment.locale('es')
 
 const localizer = momentLocalizer(moment);
-
+moment.locale('es')
 
 export const CalendarScreen = () => {
     const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
@@ -33,7 +32,7 @@ export const CalendarScreen = () => {
 
     const onSelectEvent = (e) => {
         // dispatch(eventSetActive(e));
-
+        // dispatch(uiOpenModal());
     };
 
     const onViewChange = (e) => {

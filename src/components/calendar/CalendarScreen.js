@@ -13,7 +13,7 @@ import { CalendarModal } from './CalendarModal'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { uiOpenModal } from '../../actions/uiActions'
-import { eventSetActive } from '../../actions/eventsAction'
+import { eventClearActiveEvent, eventSetActive } from '../../actions/eventsAction'
 
 moment.locale('es')
 
@@ -26,12 +26,13 @@ export const CalendarScreen = () => {
     const { events } = useSelector(state => state.calendar || [])
 
 
-    const onDobleClick = () => {
+    const onDobleClick = (e) => {
+        dispatch(eventSetActive(e));
         dispatch(uiOpenModal());
     };
 
     const onSelectEvent = (e) => {
-        dispatch(eventSetActive(e));
+        // dispatch(eventSetActive(e));
 
     };
 
@@ -39,6 +40,11 @@ export const CalendarScreen = () => {
         setLastView(e);
         localStorage.setItem('lastView', e);
     };
+
+    //Funcion para detectar el click en cualquier fecha
+    const onSelectSlot = (e) => {
+        dispatch(eventClearActiveEvent())
+    }
 
     const eventStyleGetter = (event, start, end, isSelected) => {
         const style = {
@@ -71,6 +77,8 @@ export const CalendarScreen = () => {
                     eventPropGetter={eventStyleGetter}
                     onDoubleClickEvent={onDobleClick}
                     onSelectEvent={onSelectEvent}
+                    onSelectSlot={ onSelectSlot }
+                    selectable={ true }
                     onView={onViewChange}
                     view={lastView}
                     components={{

@@ -6,7 +6,7 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../actions/uiActions";
-import { eventAddNew, eventClearActiveEvent } from "../../actions/eventsAction";
+import { eventAddNew, eventClearActiveEvent, eventDeleted, eventUpdated } from "../../actions/eventsAction";
 
 
 const now = moment().minutes(0).seconds(0).add(1, 'hours')
@@ -32,10 +32,14 @@ export const CalendarModal = () => {
   const [formValues, setFormValues] = useState( initialEvent )
 
   const { title, notes, start, end } = formValues
- 
+  
+  //Efecto para cargar los datos en el modalCalendar
   useEffect(() => {
+
     if (activeEvent) {
       setFormValues(activeEvent)
+    } else {
+      setFormValues(initialEvent)
     }
 
   }, [activeEvent])
@@ -70,6 +74,11 @@ export const CalendarModal = () => {
       end: e
     })
   }
+  const handleDelete = () => {
+    dispatch(eventDeleted())
+    dispatch(uiCloseModal())
+    dispatch(eventClearActiveEvent())
+  }
 
 
   const handleSumbitForm = (e) => {
@@ -98,16 +107,22 @@ export const CalendarModal = () => {
     }
     setTitleValid(true); 
     
+    //actualizar evento o crear nuevo Evento
+    if (activeEvent) {
+      dispatch(eventUpdated(formValues))
 
-    dispatch(eventAddNew({
-      ...formValues,
-      id: new Date().getTime(),
-      user: {
-        _id: '2317',
-        name: 'Camilo Sexto'
-      }
-    }));
+    } else {
+      dispatch(eventAddNew({
+        ...formValues,
+        id: new Date().getTime(),
+        user: {
+          _id: '2317',
+          name: 'Camilo Sexto'
+        }
+      }));
+    }
     dispatch(uiCloseModal())
+    dispatch(eventClearActiveEvent())
   }
 
   
@@ -145,7 +160,13 @@ export const CalendarModal = () => {
             </div>
             <div className="block w-full h-full p-8 overflow-hidden bg-white rounded-lg shadow">
               <h2 className="pb-2 mb-6 text-2xl font-bold text-gray-800 border-b">
-                Detalles del evento
+                {
+                  activeEvent ? (
+                   ` Evento seleccionado`
+                  ) : (
+                    `Nuevo evento`
+                  )
+                }
               </h2>
               <div className="mb-4">
                 <label className="block mb-1 text-sm font-bold tracking-wide text-gray-800">
@@ -197,13 +218,26 @@ export const CalendarModal = () => {
               </div>
 
               <div className="mt-8 text-right">
-                <button
-                  type="button"
-                  onClick={()=> dispatch(uiCloseModal())}
-                  className="px-4 py-2 mr-2 font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100"
-                >
-                  Cancelar
-                </button>
+                
+                {
+                  activeEvent ? (
+                  <button
+                    type="button"
+                    onClick={handleDelete}
+                    className="px-4 py-2 mr-2 font-semibold text-white bg-red-600 border border-gray-300 rounded-lg shadow-sm hover:bg-red-700"
+                  >
+                    Eliminar
+                  </button>
+                  ) : (
+                    <button
+                    type="button"
+                    onClick={closeModal}
+                    className="px-4 py-2 mr-2 font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100"
+                  >
+                    Cancelar
+                  </button>
+                  )
+                }
                 <button
                   type="submit"
                   className="px-4 py-2 font-semibold text-white bg-gray-800 border border-gray-700 rounded-lg shadow-sm hover:bg-gray-700"

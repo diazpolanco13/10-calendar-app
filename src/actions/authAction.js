@@ -1,5 +1,5 @@
 import Swal from "sweetalert2"
-import { fetchSinToken } from "../helpers/fetch"
+import { fetchWhitToken, fetchWithoutToken } from "../helpers/fetch"
 import { types } from "../types/types"
 
 /*-------------------------------------------------------------
@@ -9,7 +9,7 @@ export const startLogin = (email, password) => {
     
     return async (dispatch) => {
 //Envio de datos del usuario para la autenticacion con el backend
-        const resp = await fetchSinToken('auth', {email, password}, 'POST')
+        const resp = await fetchWhitToken('auth', {email, password}, 'POST')
         const body = await resp.json()
         
 //Si la respuesta del body es ok, grabar el token y fijar la hora en el localStorage
@@ -37,9 +37,9 @@ export const startRegister = (name, email, password) => {
     return async (dispatch) => {
         
         //Envio de datos del usuario para el registro en la BD 
-        const resp = await fetchSinToken('auth/new', { name,  email , password}, 'POST')
+        const resp = await fetchWithoutToken('auth/new', { name,  email , password}, 'POST')
         const body = await resp.json()
-        console.log(body)
+
 
         //Si la respuesta del body es ok, grabar el token y fijar la hora en el localStorage
         
@@ -59,10 +59,40 @@ export const startRegister = (name, email, password) => {
         }
 }
 
+export const startChecking = () => {
+    return async ( dispatch ) => {
+        //Envio de datos del usuario para el registro en la BD 
+        const resp = await fetchWhitToken('auth/renew')
+        const body = await resp.json()
+
+        //Si la respuesta del body es ok, grabar el token y fijar la hora en el localStorage
+        
+        if (body.ok) {
+            localStorage.setItem('token', body.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+            
+        // Se dispara la accion login, se dispara el inicio de sesion para dejar al usuario registrado autrenticado inmeidatamente
+            dispatch(login({
+                uid: body.uid,
+                name: body.name
+            }));
+
+        } else {
+
+            dispatch(checkingFinish());            
+        }
+    }
+} 
+
+
 /*-------------------------------------------------------------
 Funciones locales comunes 
 -------------------------------------------------------------*/
-    const login = (user) => ({
-        type: types.authLogin,
-        payload: user
-    })
+const login = (user) => ({
+    type: types.authLogin,
+    payload: user
+});
+
+const checkingFinish = () => ({
+    type: types.authCheckingFinish
+})

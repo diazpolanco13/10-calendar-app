@@ -2,7 +2,7 @@
 const baseUrl = process.env.REACT_APP_API_URL;
 
 
-export const fetchSinToken = (endPoint, data, method = 'GET') => {
+export const fetchWithoutToken = (endPoint, data, method = 'GET') => {
 
     const url = `${baseUrl}/${endPoint}`; //http://localhost:4000/api/...
     
@@ -18,4 +18,29 @@ export const fetchSinToken = (endPoint, data, method = 'GET') => {
         });
     }
 
+}
+
+export const fetchWhitToken = (endPoint, data, method = 'GET') => {
+
+    const url = `${baseUrl}/${endPoint}`; //http://localhost:4000/api/...
+   
+    const token = localStorage.getItem('token') || '';
+
+    if (method === 'GET') {
+        return fetch(url, {
+            method,
+            headers: {
+                'x-token': token
+            }
+        });
+    } else {
+        return fetch(url, {
+            method,
+            headers: {
+                'Content-type': 'application/json',
+                'x-token': token
+            },
+            body: JSON.stringify(data)
+        });
+    }
 }

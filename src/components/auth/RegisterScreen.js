@@ -1,7 +1,30 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { startRegister } from "../../actions/authAction";
+import { useForm } from "../../hooks/useForm";
 
 export const RegisterScreen = () => {
+const dispatch = useDispatch()
+
+    const [formRegisterValues, handleFormInputChange] = useForm({
+      name: 'Yherami Diaz',
+      email: 'yheramidiaz19@gmail.com',
+      password1: 'Abc12345**',
+      password2: 'Abc12345**'
+    })
+
+  const { name, email, password1, password2 } = formRegisterValues;
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    if (password1 !== password2) {
+      return Swal.fire('Error', 'Las contraseñas deben ser iguales', 'error')
+    }
+    dispatch(startRegister(name, email, password1));
+  }
+
   return (
     <div>
       <div className="flex min-h-screen bg-white">
@@ -20,7 +43,12 @@ export const RegisterScreen = () => {
 
             <div className="mt-8">
               <div className="mt-6">
-                <form action="#" method="POST" className="space-y-6">
+                <form
+                  onSubmit={ handleRegister }
+                  action="#"
+                  method="POST"
+                  className="space-y-6"
+                >
                   <div>
                     <label
                       htmlFor="text"
@@ -32,6 +60,9 @@ export const RegisterScreen = () => {
                       <input
                         id="name"
                         type="text"
+                        name="name"
+                        value={name}
+                        onChange={handleFormInputChange}
                         required
                         className="block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                       />
@@ -42,12 +73,15 @@ export const RegisterScreen = () => {
                       htmlFor="email"
                       className="block text-sm font-medium leading-5 text-gray-700"
                     >
-                      Email address
+                      Dirección de correo
                     </label>
                     <div className="mt-1 rounded-md shadow-sm">
                       <input
                         id="email"
                         type="email"
+                        name="email"
+                        value={email}
+                        onChange={handleFormInputChange}
                         required
                         className="block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                       />
@@ -64,7 +98,9 @@ export const RegisterScreen = () => {
                       <input
                         id="password"
                         type="password"
-                        name="password"
+                        name="password1"
+                        value={password1}
+                        onChange={handleFormInputChange}
                         required
                         className="block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                       />
@@ -82,6 +118,8 @@ export const RegisterScreen = () => {
                       <input
                         id="password2"
                         name="password2"
+                        value={password2}
+                        onChange={handleFormInputChange}
                         type="password"
                         required
                         className="block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"

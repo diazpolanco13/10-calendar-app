@@ -1,7 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "../../hooks/useForm";
 
 export const LoginScreen = () => {
+
+    const initialForm = {
+      name: '',
+      age: 0,
+      email: ''
+  }
+
+  const [formloginValues, handleLoginInputChange] = useForm({
+    email: 'diazpolanco13@gmail.com',
+    password: 'Abc12345**'
+  })
+
+  const { email, password } = formloginValues;
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    console.log( formloginValues )
+  }
+
   return (
     <div>
       <div className="flex min-h-screen bg-white">
@@ -20,7 +40,12 @@ export const LoginScreen = () => {
 
             <div className="mt-8">
               <div className="mt-6">
-                <form action="#" method="POST" className="space-y-6">
+                <form
+                  onSubmit={ handleLogin }
+                  action="#"
+                  method="POST"
+                  className="space-y-6"
+                >
                   <div>
                     <label
                       htmlFor="email"
@@ -32,6 +57,9 @@ export const LoginScreen = () => {
                       <input
                         id="email"
                         type="email"
+                        name="email"
+                        value={email}
+                        onChange={ handleLoginInputChange }
                         required
                         className="block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                       />
@@ -49,6 +77,9 @@ export const LoginScreen = () => {
                       <input
                         id="password"
                         type="password"
+                        name="password"
+                        value={password}
+                        onChange={ handleLoginInputChange }
                         required
                         className="block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
                       />

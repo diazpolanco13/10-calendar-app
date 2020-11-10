@@ -96,7 +96,7 @@ export const LoginScreen = () => {
                         htmlFor="remember_me"
                         className="block ml-2 text-sm leading-5 text-gray-900"
                       >
-                        Remember me
+                        Recuerdame
                       </label>
                     </div>
 
@@ -116,7 +116,7 @@ export const LoginScreen = () => {
                         type="submit"
                         className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700"
                       >
-                        Sign in
+                        Inicio de Sesión
                       </button>
                     </span>
                   </div>

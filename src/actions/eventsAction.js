@@ -1,9 +1,10 @@
+import Swal from "sweetalert2";
 import { fetchWhitToken } from "../helpers/fetch";
 import { prepareEvents } from "../helpers/prepareEvents";
 import { types } from "../types/types";
 
 /* --------------------------------------------------------------
-*--------------------- Guardar eventos en la BD
+?--------------------- Guardar eventos en la BD
 -----------------------------------------------------------------*/
 export const eventStartAddNew = ( event ) => {
     return async ( dispatch, getState ) => {
@@ -55,39 +56,61 @@ export const eventClearActiveEvent = () => ({
 
 });
 
-export const eventUpdated = (event) => ({
+export const eventDeleted = () => ({
+    type: types.eventDeleted,
+});
+
+/* --------------------------------------------------------------
+?------------------Actualizar eventos de la BD------------------
+-----------------------------------------------------------------*/
+
+export const startEventUpdated = (event) => {
+    return async ( dispatch ) => {
+        try {
+            // Enviamos el nuevo evento a la BD y traermos el mismo evento guardado como respuesta
+            const resp = await fetchWhitToken(`events/${event.id}`, event, 'PUT');
+            const body = await resp.json();
+            //Si retorno Ok, es porque se guardo en la BD, entonces //?Disparamos la actualizacion
+            if (body.ok) {
+                 dispatch(eventUpdated(event))
+            } else {
+                Swal.fire('Error', body.msg, 'error')
+            }
+
+        } catch (error) {
+            console.log(error) //! En caso de error
+        }
+    }
+}
+
+const eventUpdated = (event) => ({
     type: types.eventUpdated,
     payload: event
 
-});
-export const eventDeleted = () => ({
-    type: types.eventDeleted,
 });
 
 /* --------------------------------------------------------------
 ?------------------Cargando eventos de la BD------------------
 -----------------------------------------------------------------*/
 
-
 export const eventStartLoading = () => {
-    return async ( dispatch ) => {
+    return async (dispatch) => {
 
-    try {
-        const resp = await fetchWhitToken('events');
-        const body = await resp.json();
+        try {
+            const resp = await fetchWhitToken('events');
+            const body = await resp.json();
 
-        const events = prepareEvents(body.eventos);
+            const events = prepareEvents(body.eventos);
 
-        dispatch(eventLoaded(events))
+            dispatch(eventLoaded(events));
+            
+        } catch (error) {
         
-    } catch (error) {
-        
-    }
-
-    }
-}
+        };
+    };
+};
 
 const eventLoaded = (events) => ({
     type: types.eventLoaded,
     payload: events
-})
+});

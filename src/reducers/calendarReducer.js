@@ -1,8 +1,7 @@
 import { types } from "../types/types";
-import moment from 'moment'
 
-const initialState = {
-    events: [{
+/*
+{
         id: new Date().getTime(),
         title: 'Cumple de Ani',
         start: moment().toDate(),
@@ -12,7 +11,12 @@ const initialState = {
             _id: '1313',
             name: 'Carlos'
         }
-    }],
+    }
+*/
+
+
+const initialState = {
+    events: [],
     activeEvent: null
 };
 

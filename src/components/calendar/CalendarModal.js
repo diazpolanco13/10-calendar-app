@@ -6,7 +6,7 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../actions/uiActions";
-import { eventAddNew, eventClearActiveEvent, eventDeleted, eventUpdated } from "../../actions/eventsAction";
+import { eventClearActiveEvent, eventDeleted, eventStartAddNew, eventUpdated } from "../../actions/eventsAction";
 
 
 const now = moment().minutes(0).seconds(0).add(1, 'hours')
@@ -107,19 +107,12 @@ export const CalendarModal = () => {
     }
     setTitleValid(true); 
     
-    //actualizar evento o crear nuevo Evento
+    //actualizar evento o crear nuevo Evento en la BD
     if (activeEvent) {
-      dispatch(eventUpdated(formValues))
+      dispatch(eventUpdated(formValues));
 
     } else {
-      dispatch(eventAddNew({
-        ...formValues,
-        id: new Date().getTime(),
-        user: {
-          _id: '2317',
-          name: 'Camilo Sexto'
-        }
-      }));
+      dispatch(eventStartAddNew(formValues));
     }
     dispatch(uiCloseModal())
     dispatch(eventClearActiveEvent())

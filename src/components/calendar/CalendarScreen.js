@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -13,7 +13,7 @@ import { CalendarModal } from './CalendarModal'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { uiOpenModal } from '../../actions/uiActions'
-import { eventClearActiveEvent, eventSetActive } from '../../actions/eventsAction'
+import { eventClearActiveEvent, eventSetActive, eventStartLoading } from '../../actions/eventsAction'
 
 
 const localizer = momentLocalizer(moment);
@@ -23,6 +23,15 @@ export const CalendarScreen = () => {
     const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
     const dispatch = useDispatch()
     const { events } = useSelector(state => state.calendar || [])
+    const { uid } = useSelector(state => state.auth || '')
+
+//?------- Effect para traer los eventos------------------
+    useEffect(() => {
+        
+        dispatch(eventStartLoading());
+    
+    }, [dispatch])
+
 
 
     const onDobleClick = (e) => {
@@ -46,8 +55,9 @@ export const CalendarScreen = () => {
     }
 
     const eventStyleGetter = (event, start, end, isSelected) => {
+        
         const style = {
-            backgroundColor: '#5850ec',
+            backgroundColor: (uid === event.user._id) ? '#5850ec' : '#465660', //? Se compara el id del usuario actual con la del evento y se colorea
             borderRadius: '2px',
             opacity: 0.8,
             display: 'block',

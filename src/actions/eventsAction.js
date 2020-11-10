@@ -4,7 +4,7 @@ import { prepareEvents } from "../helpers/prepareEvents";
 import { types } from "../types/types";
 
 /* --------------------------------------------------------------
-?--------------------- Guardar eventos en la BD
+?--------------------- Save events in the database
 -----------------------------------------------------------------*/
 export const eventStartAddNew = ( event ) => {
     return async ( dispatch, getState ) => {
@@ -38,7 +38,7 @@ export const eventStartAddNew = ( event ) => {
     }
 }
 
-//*Anadimos el evento en redux
+//* Add events in redux
 const eventAddNew = (event) => ({
     type: types.eventAddNew,
     payload: event
@@ -56,7 +56,34 @@ export const eventClearActiveEvent = () => ({
 
 });
 
-export const eventDeleted = () => ({
+/* --------------------------------------------------------------
+?------------------Delete event in the BD------------------
+-----------------------------------------------------------------*/
+export const startEventDelete = () => {
+    return async (dispatch, getState) => {
+        
+        const { id } = getState().calendar.activeEvent;
+        console.log(id)
+        try {
+             // Enviamos la solicitud de eliminacion a la BD 
+             const resp = await fetchWhitToken(`events/${id}`, {}, 'DELETE');
+             const body = await resp.json();
+             
+             //Si retorno Ok, es porque se elimino el envento en la BD, entonces //?Disparamos la actualizacion
+             if (body.ok) {
+                 dispatch(eventDeleted());
+ 
+             } else {
+                 Swal.fire('Error', body.msg, 'error')
+             }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+const eventDeleted = () => ({
     type: types.eventDeleted,
 });
 
@@ -65,28 +92,30 @@ export const eventDeleted = () => ({
 -----------------------------------------------------------------*/
 
 export const startEventUpdated = (event) => {
-    return async ( dispatch ) => {
+    return async (dispatch) => {
         try {
             // Enviamos el nuevo evento a la BD y traermos el mismo evento guardado como respuesta
             const resp = await fetchWhitToken(`events/${event.id}`, event, 'PUT');
             const body = await resp.json();
             //Si retorno Ok, es porque se guardo en la BD, entonces //?Disparamos la actualizacion
             if (body.ok) {
-                 dispatch(eventUpdated(event))
+                dispatch(eventUpdated(event));
+                
             } else {
                 Swal.fire('Error', body.msg, 'error')
             }
-
+            
         } catch (error) {
-            console.log(error) //! En caso de error
-        }
-    }
-}
+            console.log(error) 
+        };
+    };
+};
 
+//?-- Actualizamos el evento en redux
 const eventUpdated = (event) => ({
     type: types.eventUpdated,
     payload: event
-
+    
 });
 
 /* --------------------------------------------------------------
@@ -95,22 +124,36 @@ const eventUpdated = (event) => ({
 
 export const eventStartLoading = () => {
     return async (dispatch) => {
-
+        
         try {
+            // Enviamos la solicitud de carga de evetos a la Base de datos
             const resp = await fetchWhitToken('events');
             const body = await resp.json();
-
+            
+            // Con este Helpers se cambian las fechas tipo sting a tipo Data()
             const events = prepareEvents(body.eventos);
-
+            
+            // Se dispara la carga de evetos al redux
             dispatch(eventLoaded(events));
             
         } catch (error) {
-        
+            
         };
     };
 };
 
+//?-- Actualizamos el evento en redux
 const eventLoaded = (events) => ({
     type: types.eventLoaded,
     payload: events
 });
+
+
+/* --------------------------------------------------------------
+?------------------Logout cleaned events of store ------------------
+-----------------------------------------------------------------*/
+
+export const eventlogout = () => ({
+    type: types.eventlogout
+})
+

@@ -6,7 +6,7 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from "react-redux";
 import { uiCloseModal } from "../../actions/uiActions";
-import { eventClearActiveEvent, eventDeleted, eventStartAddNew, startEventUpdated } from "../../actions/eventsAction";
+import { eventClearActiveEvent, eventDeleted, eventStartAddNew, startEventDelete, startEventUpdated } from "../../actions/eventsAction";
 
 
 const now = moment().minutes(0).seconds(0).add(1, 'hours')
@@ -75,9 +75,9 @@ export const CalendarModal = () => {
     })
   }
   const handleDelete = () => {
-    dispatch(eventDeleted())
+    dispatch(startEventDelete())
     dispatch(uiCloseModal())
-    dispatch(eventClearActiveEvent())
+
   }
 
 

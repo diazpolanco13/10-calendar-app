@@ -3,6 +3,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { startLogout } from '../../actions/authAction'
+import { eventlogout } from '../../actions/eventsAction'
 import cara from "../../assets/img/cara-feliz.jpg"
 export const Dropdown = () => {
 
@@ -11,6 +12,7 @@ export const Dropdown = () => {
 
   const handleLogout = () => {
     dispatch(startLogout());
+    dispatch(eventlogout())
 
    }
   

@@ -84,6 +84,18 @@ export const startChecking = () => {
     }
 } 
 
+/*-------------------------------------------------------------
+Salir de sesion y borrar el token del local storage
+-------------------------------------------------------------*/
+export const startLogout = () => {
+    return (dispatch) => {
+        localStorage.clear();
+        dispatch(logout());
+    }
+}
+
+
+
 
 /*-------------------------------------------------------------
 Funciones locales comunes 
@@ -95,4 +107,8 @@ const login = (user) => ({
 
 const checkingFinish = () => ({
     type: types.authCheckingFinish
-})
+});
+
+const logout = () => ({
+    type: types.authLogout
+});

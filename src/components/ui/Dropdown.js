@@ -1,8 +1,18 @@
 import { Menu, Transition } from '@headlessui/react'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { startLogout } from '../../actions/authAction'
 
 export const Dropdown = () => {
+
+  const dispatch = useDispatch()
+
+  const handleLogout = () => {
+    dispatch(startLogout());
+
+   }
+  
     return (
         <>
             <Menu>
@@ -56,6 +66,7 @@ export const Dropdown = () => {
                               to="/"
                               className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
                               role="menuitem"
+                              onClick={ handleLogout }
                             >
                               Salir
                             </Link>

@@ -55,13 +55,13 @@ export const Dropdown = () => {
                             className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                               Hola, <span>{name}</span>
                             </div>
-                            <Link
+                            {/* <Link
                               to="/login"
                               className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
                               role="menuitem"
                             >
                               Tu perfil
-                            </Link>
+                            </Link> */}
                             
                             <Link
                               to="/"
